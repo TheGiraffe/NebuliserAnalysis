@@ -1,4 +1,4 @@
-# NebuliserAnalysis
+# NebuliserAnalysisMATLAB
 
 UML Diagram Sketch Showing Plans for Refactoring:
 
