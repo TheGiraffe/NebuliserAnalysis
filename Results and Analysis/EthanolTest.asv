@@ -1,0 +1,11 @@
+files = ["TestData/10E-Exp33.txt","TestData/10E-Trial1-Exp36.txt","TestData/10E-Trial3-Exp38.txt","TestData/5E-Trial1-Exp30.txt","TestData/5E-Trial2-Exp31.txt","TestData/5E-Trial3-Exp32.txt","TestData/W-Trial1-Exp26.txt","TestData/W-Trial2-Exp27.txt","TestData/W-Trial3-Exp28.txt"];
+filenicknames = ["10% Ethanol 1","10% Ethanol 2","10% Ethanol 3","5% Ethanol 1","5% Ethanol 2","5% Ethanol 3", "Water 1", "Water 2", "Water 3"];
+fileparameters = [10,10,10,5,5,5,0,0,0];
+maximumcutoffdiameter = 100;
+minzoomdiameter = 0;
+maxzoomdiameter = 100;
+rfthreshold = 4;
+fpfthreshold = 5;
+
+ethanoltest1 = SAWDataComparison(files,filenicknames, fileparameters, maximumcutoffdiameter, minzoomdiameter, maxzoomdiameter, rfthreshold, fpfthreshold)
+ethanoltest1.getRFGraph()
