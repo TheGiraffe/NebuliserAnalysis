@@ -14,5 +14,5 @@ ethanoltest1 = SAWDataComparison(files,filenicknames, fileparameters, maximumcut
 ethanoltest1.getRFGraph();
 ethanoltest1.getFPFGraph();
 ethanoltest1.getMMADGraph();
-%ethanoltest1.AnalyseNebVarsTrials();
-%ethanoltest1.AnalyseDistribution();
+ethanoltest1.AnalyseNebVarsSnapshots();
+ethanoltest1.AnalyseDistribution();

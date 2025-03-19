@@ -72,7 +72,7 @@ classdef SAWDataComparison
             fi_sz = fi_sz(1);
             umrange_vals = {};
             for f = 1:1:fi_sz
-                umrange_val = obj.filedata(f).trialavgs(:, zoom_startdiameter_bin:zoom_enddiameter_bin);
+                umrange_val = obj.filedata(f).snapshotavgs(:, zoom_startdiameter_bin:zoom_enddiameter_bin);
                 umrange_val = transpose(umrange_val);
                 umrange_vals{end+1} = umrange_val;
             end
@@ -87,10 +87,13 @@ classdef SAWDataComparison
                 else
                     barcolor = rand(1,3);
                 end
-                uniqueparameters = unique(obj.parameters);
-                colormap(cool(length(uniqueparameters)))
+                % uniqueparameters = unique(obj.parameters);
+                % uncomment above and change below to
+                % length(uniqueparameters) if you want the each 
+                colormap(cool(length(obj.parameters))) 
                 cmap = colormap;
-                col = find(uniqueparameters==obj.parameters(f));
+                % col = find(uniqueparameters==obj.parameters(f));
+                col = f % Comment this out and 
                 plot(umrange_cat, umrange_vals{f}, 'Color', cmap(col,:))
 %                 bar(umrange_cat, umrange_vals{f}, 'FaceColor', cmap(col,:))
 %                 Data = categorical(umrange_vals{f});
@@ -99,8 +102,8 @@ classdef SAWDataComparison
                 %pareto(A,C, 'FaceColor',barcolor)
                 hold on
 %               bar(categorical(obj.mmad(:,1)),obj.mmad(:,2))
-%                 if length(obj.filedata(f).trialnlist) == 1
-%                     er = errorbar(umrange_cat, umrange_vals(1), zeros(size(obj.filedata(f).trialstds(zoom_startdiameter_bin:zoom_enddiameter_bin))), obj.filedata(f).trialstds(zoom_startdiameter_bin:zoom_enddiameter_bin));
+%                 if length(obj.filedata(f).snapshotnlist) == 1
+%                     er = errorbar(umrange_cat, umrange_vals(1), zeros(size(obj.filedata(f).snapshotstds(zoom_startdiameter_bin:zoom_enddiameter_bin))), obj.filedata(f).snapshotstds(zoom_startdiameter_bin:zoom_enddiameter_bin));
 %                     er.LineStyle = 'none';
 %                     er.Color = [0 0 0];
 %                 end
@@ -109,23 +112,23 @@ classdef SAWDataComparison
             xlabel("Droplet Diameter - \mum")
             ylabel("Volume Frequency (%)")
             title(sprintf('Volume Frequency of Droplet Diameters - %s\\mum or below',int2str(obj.filedata(f).cutoffdiameter_max)))
-            subtitle("Using Averages of Each Trial", "FontSize",9)
+            subtitle("Using Averages of Each Snapshot", "FontSize",9)
             grid on
             fontname(gcf,pltfont);
-            trialslist = [];
+            snapshotslist = [];
             filenicknameslist = [];
             for f = 1:1:fi_sz 
-                trialslist = [trialslist [obj.filenicknames(f) + " " + obj.filedata(f).trialnlist]];
-                blanklegendentries = cell(1,(length(obj.filedata(f).trialnlist)-1));
+                snapshotslist = [snapshotslist [obj.filenicknames(f) + " " + obj.filedata(f).snapshotnlist]];
+                blanklegendentries = cell(1,(length(obj.filedata(f).snapshotnlist)-1));
                 blanklegendentries(:) = {""};
-                filenicknameslist = [filenicknameslist [obj.filenicknames(f) + " Trials (n=" + length(obj.filedata(f).trialnlist) + ")"] blanklegendentries];
+                filenicknameslist = [filenicknameslist [obj.filenicknames(f) + " Snapshots (n=" + length(obj.filedata(f).snapshotnlist) + ")"] blanklegendentries];
             end
-            %legend(trialslist,'FontSize',7,'Location','northeastoutside')
+            %legend(snapshotslist,'FontSize',7,'Location','northeastoutside')
             legend(filenicknameslist,'FontSize',8,'Location','northeastoutside')
             distribution = plt1;
         end
 
-        function nebvar_t = AnalyseNebVarsTrials(obj, pltsize, pltbgcol, pltfont)
+        function nebvar_t = AnalyseNebVarsSnapshots(obj, pltsize, pltbgcol, pltfont)
             arguments
                 obj
                 pltsize = [50,50,800,400];
@@ -175,7 +178,7 @@ classdef SAWDataComparison
                 yline(obj.filedata(f).avgmmad,'-',['Avg: ',num2str(round(obj.filedata(f).avgmmad,rounding_val))],'LabelHorizontalAlignment','center')
             end
             title("MMAD")
-            xlabel("Trial Number")
+            xlabel("Snapshot Number")
             ylabel("MMAD")
             legend(legendlabels,'FontSize',8)
             nebvar_t = plt2;

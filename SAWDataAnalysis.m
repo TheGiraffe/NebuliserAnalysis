@@ -9,10 +9,10 @@ classdef SAWDataAnalysis
         numvariables = 69;
         filedata
         categories
-        trials
-        trialavgs
-        trialstds
-        trialnlist
+        snapshots
+        snapshotavgs
+        snapshotstds
+        snapshotnlist
         plot
         mmad
         avgmmad
@@ -33,7 +33,7 @@ classdef SAWDataAnalysis
                 obj.rf_thresh = rft;
                 obj.fpf_thresh = fpft;
                 obj.filedata = obj.importFile();
-                [obj.categories, obj.trials, obj.trialavgs, obj.trialstds, obj.trialnlist] = obj.getTrials();
+                [obj.categories, obj.snapshots, obj.snapshotavgs, obj.snapshotstds, obj.snapshotnlist] = obj.getSnapshots();
                 [obj.mmad, obj.avgmmad] = obj.getMMAD();
                 [obj.rf, obj.rferrors, obj.avgrf] = obj.getRF();
                 [obj.fpf, obj.fpferrors ,obj.avgfpf] = obj.getFPF();
@@ -47,15 +47,15 @@ classdef SAWDataAnalysis
             end
             fpfs = [];
             fpferrors = [];
-            for i=1:1:length(obj.trialnlist)
+            for i=1:1:length(obj.snapshotnlist)
                 fpf = 0;
                 fpferror = 0;
                 for j = 1:1:length(obj.categories)
                     if obj.categories(j)>obj.fpf_thresh
                         break
                     else
-                        fpf = fpf + obj.trialavgs(i,j);
-                        fpferror = fpferror + obj.trialstds(i,j);
+                        fpf = fpf + obj.snapshotavgs(i,j);
+                        fpferror = fpferror + obj.snapshotstds(i,j);
                     end
                 end
                 fpf = fpf/100;
@@ -74,15 +74,15 @@ classdef SAWDataAnalysis
             end
             rfs = [];
             rferrors = [];
-            for i=1:1:length(obj.trialnlist)
+            for i=1:1:length(obj.snapshotnlist)
                 rf = 0;
                 rferror = 0;
                 for j = 1:1:length(obj.categories)
                     if obj.categories(j)>obj.rf_thresh
                         break
                     else
-                        rf = rf + obj.trialavgs(i,j);
-                        rferror = rferror + obj.trialstds(i,j);
+                        rf = rf + obj.snapshotavgs(i,j);
+                        rferror = rferror + obj.snapshotstds(i,j);
                     end
                 end
                 rf = rf/100;
@@ -100,11 +100,11 @@ classdef SAWDataAnalysis
                 obj
             end
             means = [];
-            for i=1:1:length(obj.trialnlist)
+            for i=1:1:length(obj.snapshotnlist)
                 num = 0;
                 dem = 0;
                 for j = 1:1:length(obj.categories)
-                    num = num + obj.trialavgs(i,j);
+                    num = num + obj.snapshotavgs(i,j);
                     if num >= 50
                         mid = [obj.categories(1,j)];
                         break
@@ -117,7 +117,7 @@ classdef SAWDataAnalysis
             avgmmads = mean(mmads);
         end
 
-        function [categories,trials,trialavgs,trialstds,trialnlist] = getTrials(obj)
+        function [categories,snapshots,snapshotavgs,snapshotstds,snapshotnlist] = getSnapshots(obj)
             arguments
                 obj
             end
@@ -126,20 +126,20 @@ classdef SAWDataAnalysis
             filedata = obj.filedata;
             numvariables = obj.numvariables;
             endsample = height(filedata);
-            trials = [];
-            trialavgs = [];
-            trialstds = [];
+            snapshots = [];
+            snapshotavgs = [];
+            snapshotstds = [];
             firststart = false;
             start = false;
             maxbinfound = false;
-            trialn = 0;
-            trialnlist = [];
+            snapshotn = 0;
+            snapshotnlist = [];
             for tr=1:1:endsample
                 if filedata{tr, filedata.Properties.VariableNames(10)} > 0
                     if start == false && firststart == true
                         start_tr = tr;
-                        trialavg = [];
-                        trialstd = [];
+                        snapshotavg = [];
+                        snapshotstd = [];
                         start = true;
                     end
                     if firststart == false
@@ -161,31 +161,31 @@ classdef SAWDataAnalysis
                 else
                     if start == true
                         end_tr = tr;
-                        trial = filedata{start_tr:end_tr,filedata.Properties.VariableNames(10:enddiameter_bin)};
-                        trialn = trialn + 1;
-                        trialnlist{end+1} = "Trial "+int2str(trialn); %+" Avg"
+                        snapshot = filedata{start_tr:end_tr,filedata.Properties.VariableNames(10:enddiameter_bin)};
+                        snapshotn = snapshotn + 1;
+                        snapshotnlist{end+1} = "Snapshot "+int2str(snapshotn); %+" Avg"
                      
                         for a=10:1:(enddiameter_bin)
                             dta = (filedata{start_tr:(end_tr-1),filedata.Properties.VariableNames(a)});
-                            trialavg(end+1) = mean(dta);
-                            trialstd(end+1) = std(dta);
+                            snapshotavg(end+1) = mean(dta);
+                            snapshotstd(end+1) = std(dta);
                         end
-                        trials = [trials; trial];
-                        adjust = 100/sum(trialavg(1,1:end));
-                        trialavg = trialavg.*adjust;
-                        trialstd = trialstd.*adjust;
-                        trialavgs = [trialavgs; trialavg];
-                        sum(trialavg(1,1:end));
-                        trialstds = [trialstds; trialstd];
+                        snapshots = [snapshots; snapshot];
+                        adjust = 100/sum(snapshotavg(1,1:end));
+                        snapshotavg = snapshotavg.*adjust;
+                        snapshotstd = snapshotstd.*adjust;
+                        snapshotavgs = [snapshotavgs; snapshotavg];
+                        sum(snapshotavg(1,1:end));
+                        snapshotstds = [snapshotstds; snapshotstd];
                         start = false;
                     end
                 end
             end
             categories;
-            trials;
-            trialavgs;
-            trialstds;
-            trialnlist;
+            snapshots;
+            snapshotavgs;
+            snapshotstds;
+            snapshotnlist;
         end
 
         function plt = plotAnalyse(obj, pltsize, pltbgcol, pltfont)
@@ -220,7 +220,7 @@ classdef SAWDataAnalysis
             end
             
             umrange_cat = categorical(obj.categories(zoom_startdiameter_bin:zoom_enddiameter_bin));
-            umrange_val = obj.trialavgs(:, zoom_startdiameter_bin:zoom_enddiameter_bin);
+            umrange_val = obj.snapshotavgs(:, zoom_startdiameter_bin:zoom_enddiameter_bin);
             umrange_val = transpose(umrange_val);
 
             plt1 = figure('Position',plot_p_size,'InvertHardcopy','off','Color',plotbgcolor)
@@ -229,8 +229,8 @@ classdef SAWDataAnalysis
             bar(umrange_cat, umrange_val)
             hold on
 %             bar(categorical(obj.mmad(:,1)),obj.mmad(:,2))
-            if length(obj.trialnlist) == 1
-                er = errorbar(umrange_cat, umrange_val, zeros(size(obj.trialstds(zoom_startdiameter_bin:zoom_enddiameter_bin))), obj.trialstds(zoom_startdiameter_bin:zoom_enddiameter_bin));
+            if length(obj.snapshotnlist) == 1
+                er = errorbar(umrange_cat, umrange_val, zeros(size(obj.snapshotstds(zoom_startdiameter_bin:zoom_enddiameter_bin))), obj.snapshotstds(zoom_startdiameter_bin:zoom_enddiameter_bin));
                 er.LineStyle = 'none';
                 er.Color = [0 0 0];
             end
@@ -241,7 +241,7 @@ classdef SAWDataAnalysis
             subtitle(obj.filename, "FontSize",9)
             grid on
             fontname(gcf,pltfont);
-            legend([obj.trialnlist],'FontSize',8,'Location','northeastoutside')
+            legend([obj.snapshotnlist],'FontSize',8,'Location','northeastoutside')
             
             plot_p_size(3) = pltsize(3)*4/5;
             plot_p_size(4) = pltsize(3)*4/5;
@@ -270,7 +270,7 @@ classdef SAWDataAnalysis
             hold on
             yline(obj.avgmmad,'-',['Avg: ',num2str(round(obj.avgmmad,rounding_val))],'LabelHorizontalAlignment','center')
             title("MMAD")
-            xlabel("Trial Number")
+            xlabel("Snapshot Number")
             ylabel("MMAD")
             plt = [plt1, plt2]
             
