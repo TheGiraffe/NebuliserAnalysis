@@ -1,3 +1,6 @@
+%% New code, checking some of that output format
+ethanoltest25pc = SAWDataComparison("Data/")
+%% Old code
 files = ["TestData/10E-Exp33.txt","TestData/10E-Trial1-Exp36.txt","TestData/10E-Trial3-Exp38.txt","TestData/5E-Trial1-Exp30.txt","TestData/5E-Trial2-Exp31.txt","TestData/5E-Trial3-Exp32.txt","TestData/W-Trial1-Exp26.txt","TestData/W-Trial2-Exp27.txt","TestData/W-Trial3-Exp28.txt"];
 files = fliplr(files);
 filenicknames = ["10% Ethanol Exp1","10% Ethanol Exp2","10% Ethanol Exp3","5% Ethanol Exp1","5% Ethanol Exp2","5% Ethanol Exp3", "Water Exp1", "Water Exp2", "Water Exp3"];
