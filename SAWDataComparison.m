@@ -139,7 +139,7 @@ classdef SAWDataComparison
             plotbgcolor = pltbgcol; %"#a4d6fc"
 
             plot_p_size(3) = pltsize(3)*4/5;
-            plot_p_size(4) = pltsize(3)*4/5;
+            plot_p_size(4) = pltsize(3)*3/5;
 
             rounding_val = 3;
 

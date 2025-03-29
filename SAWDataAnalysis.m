@@ -244,7 +244,7 @@ classdef SAWDataAnalysis
             legend([obj.snapshotnlist],'FontSize',8,'Location','northeastoutside')
             
             plot_p_size(3) = pltsize(3)*4/5;
-            plot_p_size(4) = pltsize(3)*4/5;
+            plot_p_size(4) = pltsize(3)*3/5;
 
             rounding_val = 3;
 
