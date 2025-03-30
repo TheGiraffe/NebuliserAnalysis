@@ -23,7 +23,7 @@ classdef SAWDataComparison
                 obj.rft = rft;
                 obj.fpft = fpft;
                 obj.filedata = obj.importFiles();
-                %obj.plot = obj.plotAnalyse();
+                % obj.plot = obj.plotAnalyse();
             end
         end
         function filedata = importFiles(obj)
