@@ -1,4 +1,4 @@
-classdef SizeDataAnalysis
+classdef Part
     properties
         filenames
         filenicknames
@@ -7,9 +7,12 @@ classdef SizeDataAnalysis
         maxcutoffdiameter
         minzoomdiameter
         maxzoomdiameter
-        rfthreshold
-        fpfthreshold
+        rf_threshold
+        fpf_threshold
         filedata
         plot
+    end
+    methods
+
     end
 end
