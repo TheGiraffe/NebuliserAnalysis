@@ -29,9 +29,10 @@ classdef ParticleSizeAnalysis
             end
         end
         function filedata = importFiles(obj)
-            filedata = [];
+            filedata = {};
             % separator_indices = [];
-            for filename = obj.filenames
+            for f=1:1:length(obj.filenames)
+                filename = obj.filenames(f);
                 % Set up the Import Options and import the data
                 opts = delimitedTextImportOptions("NumVariables", obj.numvariables);
                 % Specify range and delimiter
@@ -47,8 +48,18 @@ classdef ParticleSizeAnalysis
                 opts = setvaropts(opts, ["DateTime", "ParticleSize1"], "EmptyFieldRule", "auto");
                 % Import the data
                 table_from_file = readtable((filename), opts);
-                separator_indices = transpose(find(strcmp([table_from_file{:,1}], "Date-Time")))
-                filedata = [filedata; table_from_file];
+                separator_indices = transpose(find(strcmp([table_from_file{:,1}], "Date-Time")));
+                snapshots = {};
+                for i=1:1:length(separator_indices)
+                    if i == length(separator_indices)
+                        snapshot = table_from_file(separator_indices(i):end, :);
+                    else
+                        snapshot = table_from_file(separator_indices(i):separator_indices(i+1)-1, :);
+                    end
+                    snapshots{i} = snapshot;
+                end
+
+                filedata{f} = snapshots;
                 % Clear temporary variables
                 clear opts
             end
