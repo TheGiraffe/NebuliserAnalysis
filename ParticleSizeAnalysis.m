@@ -11,6 +11,7 @@ classdef ParticleSizeAnalysis
         fpf_threshold
         numvariables=69
         filedata
+        filetags
         plots
     end
     methods
