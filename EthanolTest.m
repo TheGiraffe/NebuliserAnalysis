@@ -39,17 +39,17 @@ fileparameters = [
 
 test = ParticleSizeAnalysis(files, filenicknames, fileparameters, 1, 100, 0, 100, 4, 5);
 
-% ethanoltest = SAWDataComparison(files, filenicknames, fileparameters, 100, 0, 100, 4, 5)
+ethanoltest = SAWDataComparison(files, filenicknames, fileparameters, 100, 0, 100, 4, 5)
 % Change graph name to be about the range, not "100 um and below"
 % Will need to rewrite my code to accomodate having better data. Maybe
 % instead have it be snapshots records like from the spraytec software? Or
 % just average everything out.
 % 
-% ethanoltest.getRFGraph();
-% ethanoltest.getFPFGraph();
-% ethanoltest.getMMADGraph();
-% ethanoltest.AnalyseDistribution();
-% ethanoltest.AnalyseNebVarsSnapshots();
+ethanoltest.getRFGraph();
+ethanoltest.getFPFGraph();
+ethanoltest.getMMADGraph();
+ethanoltest.AnalyseDistribution();
+ethanoltest.AnalyseNebVarsSnapshots();
 
 
 %% Old code
