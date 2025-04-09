@@ -126,9 +126,23 @@ ConsoleWrite($AnalysisParameters[2][0] & @CRLF)
 ;~ global $pshLoc[2] = [90, 609]
 ;~ global $exp = "Exp20"
 
-$pshName = "Spraytec - [ Exp029-5pcEthanol.psh]"
-global $pshLoc[2] = [90, 460]
-global $exp = "Exp29"
+;~ $pshName = "Spraytec - [ Exp029-5pcEthanol.psh]"
+;~ global $pshLoc[2] = [90, 460]
+;~ global $exp = "Exp29"
+
+;~ $pshName = "Spraytec - [Exp033-10pcEthanol.psh]"
+;~ global $pshLoc[2] = [90, 535]
+;~ global $exp = "Exp33"
+
+;~ $pshName = "Spraytec - [Exp039-25pcEthanol.psh]"
+;~ global $pshLoc[2] = [90, 650]
+;~ global $exp = "Exp39"
+
+$pshName = "Spraytec - [Exp024-100pcWater.psh]"
+global $pshLoc[2] = [90, 215]
+global $exp = "Exp24"
+
+;~ $intLineCount
 
 For $i=0 To $intLineCount
 	$fn = $exp & "-" & String(1000 + $i) & ".txt"
