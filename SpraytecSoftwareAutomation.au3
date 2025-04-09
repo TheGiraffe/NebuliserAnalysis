@@ -122,9 +122,13 @@ $intLineCount = _FileCountLines($AnalysisParameterFile) - 2
 ConsoleWrite($intLineCount & @CRLF)
 ConsoleWrite($AnalysisParameters[2][0] & @CRLF)
 
-$pshName = "Spraytec - [Exp20-Water.psh]"
-global $pshLoc[2] = [90, 609]
-global $exp = "Exp20"
+;~ $pshName = "Spraytec - [Exp20-Water.psh]"
+;~ global $pshLoc[2] = [90, 609]
+;~ global $exp = "Exp20"
+
+$pshName = "Spraytec - [ Exp029-5pcEthanol.psh]"
+global $pshLoc[2] = [90, 460]
+global $exp = "Exp29"
 
 For $i=0 To $intLineCount
 	$fn = $exp & "-" & String(1000 + $i) & ".txt"
