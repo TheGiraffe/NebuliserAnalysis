@@ -118,7 +118,7 @@ EndFunc
 global $AnalysisParameters[1]
 $AnalysisParameterFile = "C:\Users\sodav\Desktop\BEng\NebuliserAnalysis\AnalysisParametersList.csv"
 _FileReadToArray($AnalysisParameterFile, $AnalysisParameters, Default, ",")
-$intLineCount = _FileCountLines($AnalysisParameterFile) - 1
+$intLineCount = _FileCountLines($AnalysisParameterFile) - 2
 ConsoleWrite($intLineCount & @CRLF)
 ConsoleWrite($AnalysisParameters[2][0] & @CRLF)
 
@@ -132,7 +132,6 @@ For $i=0 To $intLineCount
 	EditRecordAndExportData($pshName, $pshLoc, $fn, $AnalysisParameters[$i+2][1], $AnalysisParameters[$i+2][2], $AnalysisParameters[$i+2][0], $AnalysisParameters[$i+2][3], $AnalysisParameters[$i+2][4])
 	Sleep(500)
 Next
-
 
 
 ;~ Unused codes but kept for reference:
