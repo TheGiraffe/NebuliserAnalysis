@@ -15,7 +15,7 @@ All in all, the Automation script I wrote took about 47 minutes to export 120 fi
 
 104 minutes of manual processing ---> 47 minutes of leaving my laptop and letting the script run.
 
-## Old Notes from 2023
+## Old Notes
 UML Diagram Sketch Showing Plans for Refactoring:
 
 ![UML Class Sketch](uml_class_sketch.jpg)
