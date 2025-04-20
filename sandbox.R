@@ -62,6 +62,9 @@ s2 <- data %>% filter(`Cv(%)` <= 0) %>% select(`Date-Time`)
 
 setdiff(s1, s2)
 
+correctedscatter2 = read_tsv(paste(dataPath, dataFolder, "Exp20-correctedscatter2.txt", sep="/"))
+correctedscatter3 = read_tsv(paste(dataPath, dataFolder, "Exp20-correctedscatter3.txt", sep="/"))
+
 # timediff <- max(intervals$timestamp) - min(intervals$timestamp)
 
 
