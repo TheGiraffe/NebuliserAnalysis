@@ -17,7 +17,9 @@ boxPlotExportPath = "Exports/BoxPlots/"
 dataExportPath = "Data/BatchData/"
 myFont = "Century Gothic"
 
-experiment = "Exp20"
+experiments <- c("Exp20", "Exp29", "Exp33", "Exp39", "Exp24")
+
+experiment = experiments[[1]]
 dataFolder = paste0(experiment, "-automated")
 
 targetFolderPath <- paste0(dataPath,"/", dataFolder)
