@@ -75,3 +75,24 @@ correctedscatter3 = read_tsv(paste(dataPath, dataFolder, "Exp20-correctedscatter
 #   theme_bw() +
 #   theme(axis.text.x=element_text(size=rel(0.5), angle=90)) +
 #   geom_bar(stat='identity')
+
+
+
+testFunct <- function(path){
+  file <- read_tsv(path)
+  date <- file$`Date-Time`[[1]]
+  pathchange <- gsub("txt", "", gsub("[^a-zA-Z0-9_]", "", gsub(targetFolderPath, "", path)))
+  
+  expname <- gsub(".txt", "", gsub("/", "", gsub(targetFolderPath, "", path)))
+  
+  sillytestdata <- data.frame(
+    parameters = c("sophia", "cleo", "bunbun", "thisfile", "dateofthisfile", "expname"),
+    values = c("human", "cat", "plushy bunny", path, date, expname)
+  )
+  
+  write_csv(sillytestdata, paste0(dataExportPath, "test/", pathchange, ".csv"))
+}
+
+files_list <- list.files(path=targetFolderPath, pattern="[0-9].txt$", full.names = TRUE)
+
+d <- lapply(files_list, testFunct)

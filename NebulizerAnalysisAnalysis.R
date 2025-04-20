@@ -20,10 +20,12 @@ myFont = "Century Gothic"
 experiment = "Exp20"
 dataFolder = paste0(experiment, "-automated")
 
-exportDataVersion = "1080"
+targetFolderPath <- paste0(dataPath,"/", dataFolder)
 
-filename = paste0(experiment, "-", exportDataVersion, ".txt")
-fullDataPath = paste(dataPath, dataFolder, filename, sep="/")
+# exportDataVersion = "1042"
+# 
+# filename = paste0(experiment, "-", exportDataVersion, ".txt")
+# fullDataPath = paste(dataPath, dataFolder, filename, sep="/")
 
 # Fine particle fraction threshold: <= 5um according to EU Pharmacopoeia (Newman, 2022)
 fpf_threshold <- 5
@@ -40,15 +42,18 @@ efpf_threshold <- 2
 # Respirable fraction <10um
 rf_threshold <- 10
 
-# Whatever you want to name the experiment, for me I'm just going based off the file name.
-expname <- gsub(".txt", "", filename)
+animation_fps <- 5
+boxplot_boxfill = "#a5f2d6"
+
 
 ProcessNebData <- function(path) {
   
-  correctedScatterPath = paste(dataPath, dataFolder, correctedScatter_filename, sep="/")
-  correctedScatter_filename = paste0(experiment, "-correctedscatter.txt")
+  expname <- gsub(".txt", "", gsub("/", "", gsub(targetFolderPath, "", path)))
   
-  data <- read_tsv(fullDataPath) 
+  correctedScatter_filename = paste0(experiment, "-correctedscatter.txt")
+  correctedScatterPath = paste(dataPath, dataFolder, correctedScatter_filename, sep="/")
+  
+  data <- read_tsv(path) 
   
   # Keep this aside to ensure that all the bin values are the same.
   # From what I've seen, they are, but just in case!
@@ -225,10 +230,8 @@ ProcessNebData <- function(path) {
                             value = intervals_with_data$vmd
   )
   
-  bpfill = "#a5f2d6"
-  
   bplot_vmd <- ggplot(bplotdf_vmd, aes(x=toupper(parameter), y=value)) +
-    geom_boxplot(aes(x=toupper(parameter), y=value), outlier.shape=1, fill = bpfill) +
+    geom_boxplot(aes(x=toupper(parameter), y=value), outlier.shape=1, fill = boxplot_boxfill) +
     stat_summary(fun=mean, geom = "point", size=2) +
     stat_boxplot(geom="errorbar") +
     theme_bw() +
@@ -237,7 +240,7 @@ ProcessNebData <- function(path) {
     ylab("Value (μm)")
   
   bplot_fractions <- ggplot(bplotdf_fractions, aes(x=toupper(parameter), y=value)) +
-    geom_boxplot(aes(x=toupper(parameter), y=value), outlier.shape=1, fill = bpfill) +
+    geom_boxplot(aes(x=toupper(parameter), y=value), outlier.shape=1, fill = boxplot_boxfill) +
     stat_summary(fun=mean, geom = "point", size=2) +
     stat_boxplot(geom="errorbar") +
     theme_bw() +
@@ -262,14 +265,18 @@ ProcessNebData <- function(path) {
     transition_time(timestamp) +
     ease_aes('linear')
   
-  fps <- 5
-  animate(plottest, duration = nrow(data)/fps, fps = fps, width = 1920, height = 1080, renderer = gifski_renderer())
+  animate(plottest, duration = nrow(data)/animation_fps, fps = animation_fps, width = 1920, height = 1080, renderer = gifski_renderer())
   anim_save(paste0(animationExportPath, "PSDAnim_", expname,".gif"))
   
   write_csv(intervals, paste0(dataExportPath, "PSDs/PSDFull_", expname, ".csv"))
   write_csv(intervals_with_data, paste0(dataExportPath, "TimestampSummaries/TSSummary_", expname, ".csv"))
   write_csv(intervals_summarized, paste0(dataExportPath, "FileSummaries/FileSummary_", expname, ".csv"))
   
+  return("DONE")
 }
 
+# ProcessNebData(fullDataPath)
 
+files_list <- list.files(path=targetFolderPath, pattern="[0-9].txt$", full.names = TRUE)
+
+d <- lapply(files_list, testFunct)
