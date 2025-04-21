@@ -280,5 +280,28 @@ ProcessNebData <- function(path) {
 # ProcessNebData(fullDataPath)
 
 files_list <- list.files(path=targetFolderPath, pattern="[0-9].txt$", full.names = TRUE)
+d1 <- lapply(files_list, ProcessNebData)
 
-d <- lapply(files_list, ProcessNebData)
+experiment = experiments[[2]]
+dataFolder = paste0(experiment, "-automated")
+targetFolderPath <- paste0(dataPath,"/", dataFolder)
+files_list <- list.files(path=targetFolderPath, pattern="[0-9].txt$", full.names = TRUE)
+d2 <- lapply(files_list, ProcessNebData)
+
+experiment = experiments[[3]]
+dataFolder = paste0(experiment, "-automated")
+targetFolderPath <- paste0(dataPath,"/", dataFolder)
+files_list <- list.files(path=targetFolderPath, pattern="[0-9].txt$", full.names = TRUE)
+d3 <- lapply(files_list, ProcessNebData)
+
+experiment = experiments[[4]]
+dataFolder = paste0(experiment, "-automated")
+targetFolderPath <- paste0(dataPath,"/", dataFolder)
+files_list <- list.files(path=targetFolderPath, pattern="[0-9].txt$", full.names = TRUE)
+d4 <- lapply(files_list, ProcessNebData)
+
+experiment = experiments[[5]]
+dataFolder = paste0(experiment, "-automated")
+targetFolderPath <- paste0(dataPath,"/", dataFolder)
+files_list <- list.files(path=targetFolderPath, pattern="[0-9].txt$", full.names = TRUE)
+d5 <- lapply(files_list, ProcessNebData)
