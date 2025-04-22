@@ -72,28 +72,42 @@ AllExperiments <- rbind(Exp20_df, Exp24_df, Exp29_df, Exp33_df, Exp39_df)
 # list(c(0.1, 2500), c(1.0, 100))
 
 GetVaryPlot = function(DataFrame, THINGTOVARY, PlotDescription, XLab, YLab, ChrParCol, CustomColor = c(FALSE, ""), ErrBars=c(FALSE, ""), PDRanges = list(c(0.1, 2500))){
+  if (length(PDRanges) > 1){
+    VARY_PDRANGE <- TRUE
+  } else {
+    VARY_PDRANGE <- FALSE
+  }
+  
+  print(VARY_PDRANGE)
+   
   if (THINGTOVARY == "ALARMMIN"){
-    if (length(PDRanges) == 1){
+    if (!VARY_PDRANGE){
       varycond <- "VARY_ONLY_ALARM"
     } else {varycond <- "VARY_PDMINMAX_ALARM"}
 
   } else if (THINGTOVARY == "DFIRST"){
-    if (length(PDRanges) == 1){
+    if (!VARY_PDRANGE){
       varycond <- "VARY_ONLY_DETFIRST"
     } else {varycond <- "VARY_PDMINMAX_DETFIRST"}
     
   } else if (THINGTOVARY == "DDISTANCEFROMLAST"){
-    if (length(PDRanges) == 1){
+    if (!VARY_PDRANGE){
       varycond <- "VARY_ONLY_DETLAST"
     } else {varycond <- "VARY_PDMINMAX_DETLAST"}
   } else {
     return("error!")
   }
   
+  print(varycond)
+  
   VARY_X <- DataFrame %>% filter(eval(parse(text=varycond)) == TRUE) %>%
     mutate(chr_par = eval(parse(text=ChrParCol)))
+
+  if (VARY_PDRANGE){
+    VARY_X$experiment <- paste0(VARY_X$experiment, "(", VARY_X$PDMIN, "-", VARY_X$PDMAX, " µm) User-Defined Range")
+  }
   
-  # print(VARY_X$`VARY_ONLY_ALARM`)
+  print(VARY_X$experiment)
   
   tickint = 10
   
@@ -202,7 +216,7 @@ filename <- paste(pltsnum, "ExpPlot", char_param, thing_to_vary, sep="-")
       plot.subtitle=element_text(family=myFont, size=14, face="bold"),
       axis.text.x=element_text(size=8))
 
-ggsave(paste0(exportPath,filename,".svg"), width = 12, height = 7, units = "in")
+# ggsave(paste0(exportPath,filename,".svg"), width = 12, height = 7, units = "in")
 
 p6 <- GetVaryPlot(AllExperiments, thing_to_vary, 
                   "All Experiments - Mean VMD", 
@@ -219,7 +233,7 @@ filename <- paste(pltsnum, "OverallPlot", paste0(char_param, "_vs_median"), thin
   ) & theme(plot.subtitle=element_text(family=myFont, size=14, face="bold"), 
             axis.text.x=element_text(size=8))
 
-ggsave(paste0(exportPath,filename,".svg"), width = 12, height = 5, units = "in")
+# ggsave(paste0(exportPath,filename,".svg"), width = 12, height = 5, units = "in")
 
 
 ###############################

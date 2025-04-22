@@ -264,4 +264,4 @@ p5 <- GetVaryPlot(Exp39_df,
                   CustomColor = c(TRUE, custom_colors[[5]]))
 
 
-test <- Exp29_df %>% filter(VARY_ONLY_DETFIRST == TRUE)
+test <- Exp29_df %>% filter(VARY_PDMINMAX_ALARM == TRUE)
