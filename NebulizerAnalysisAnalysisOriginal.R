@@ -11,19 +11,18 @@ windowsFonts("Century Gothic" = windowsFont("Century Gothic"))
 
 rm(list = ls())
 
-dataPath = "Data/Final/alarmmin80"
-animationExportPath = "Exports/Final/alarmmin80/"
-boxPlotExportPath = "Exports/Final/alarmmin80/"
-dataExportPath = "Data/Final/alarmmin80/"
+dataPath = "Data/SpraytecExportData"
+animationExportPath = "Exports/PSDAnimations/"
+boxPlotExportPath = "Exports/BoxPlots/"
+dataExportPath = "Data/BatchData/"
 myFont = "Century Gothic"
 
-# experiments <- c("Exp20", "Exp29", "Exp33", "Exp39", "Exp24")
+experiments <- c("Exp20", "Exp29", "Exp33", "Exp39", "Exp24")
 
-# experiment = experiments[[1]]
-# dataFolder = paste0(experiment, "-automated")
-# 
-# targetFolderPath <- paste0(dataPath,"/", dataFolder)
-targetFolderPath <- dataPath
+experiment = experiments[[1]]
+dataFolder = paste0(experiment, "-automated")
+
+targetFolderPath <- paste0(dataPath,"/", dataFolder)
 
 # exportDataVersion = "1042"
 # 
@@ -53,11 +52,8 @@ ProcessNebData <- function(path) {
   
   expname <- gsub(".txt", "", gsub("/", "", gsub(targetFolderPath, "", path)))
   
-  correctedScatter_filename = paste0(gsub(".txt", "", gsub("Data/Final/alarmmin80/", "", path)), ".txt")
-  correctedScatterPath = paste(dataPath, "CorrectedScatter",correctedScatter_filename, sep="/")
-  
-  # correctedScatter_filename = paste0(experiment, "-correctedscatter.txt")
-  # correctedScatterPath = paste(dataPath, dataFolder, correctedScatter_filename, sep="/")
+  correctedScatter_filename = paste0(experiment, "-correctedscatter.txt")
+  correctedScatterPath = paste(dataPath, dataFolder, correctedScatter_filename, sep="/")
   
   data <- read_tsv(path) 
   
@@ -270,52 +266,42 @@ ProcessNebData <- function(path) {
   #   labs(title = "{expname}", caption='Timestamp: {frame_time}, {format(round((frame_time - min(intervals$timestamp)), 2), nsmall = 2)} of {format(round((max(intervals$timestamp) - min(intervals$timestamp)), 2), nsmall = 2)}', x = 'Size (μm)', y = 'Volume Percentage (%)') +
   #   transition_time(timestamp) +
   #   ease_aes('linear')
-  # 
+  
   # animate(plottest, duration = nrow(data)/animation_fps, fps = animation_fps, width = 1920, height = 1080, renderer = gifski_renderer())
-  # # anim_save(paste0(animationExportPath, "PSDAnim_", expname,".gif"))
   # anim_save(paste0(animationExportPath, "PSDAnim_", expname,".gif"))
   
-  write_csv(intervals, paste0(dataExportPath, "PSDFull_", expname, ".csv"))
-  write_csv(intervals_with_data, paste0(dataExportPath, "TSSummary_", expname, ".csv"))
-  write_csv(intervals_summarized, paste0(dataExportPath, "FileSummary_", expname, ".csv"))
-  # 
-  # write_csv(intervals, paste0(dataExportPath, "PSDs/PSDFull_", expname, ".csv"))
-  # write_csv(intervals_with_data, paste0(dataExportPath, "TimestampSummaries/TSSummary_", expname, ".csv"))
-  # write_csv(intervals_summarized, paste0(dataExportPath, "FileSummaries/FileSummary_", expname, ".csv"))
+  write_csv(intervals, paste0(dataExportPath, "PSDs/PSDFull_", expname, ".csv"))
+  write_csv(intervals_with_data, paste0(dataExportPath, "TimestampSummaries/TSSummary_", expname, ".csv"))
+  write_csv(intervals_summarized, paste0(dataExportPath, "FileSummaries/FileSummary_", expname, ".csv"))
   
   return("DONE")
 }
 # 
 # ProcessNebData(fullDataPath)
 
-# ProcessNebData("Data/Final/WaterTrial1.txt")
-
 files_list <- list.files(path=targetFolderPath, pattern="[0-9].txt$", full.names = TRUE)
-dFinal <- lapply(files_list, ProcessNebData)
+d1 <- lapply(files_list, ProcessNebData)
 
-# files_list <- list.files(path=targetFolderPath, pattern="[0-9].txt$", full.names = TRUE)
-# d1 <- lapply(files_list, ProcessNebData)
-# 
-# experiment = experiments[[2]]
-# dataFolder = paste0(experiment, "-automated")
-# targetFolderPath <- paste0(dataPath,"/", dataFolder)
-# files_list <- list.files(path=targetFolderPath, pattern="[0-9].txt$", full.names = TRUE)
-# d2 <- lapply(files_list, ProcessNebData)
-# 
-# experiment = experiments[[3]]
-# dataFolder = paste0(experiment, "-automated")
-# targetFolderPath <- paste0(dataPath,"/", dataFolder)
-# files_list <- list.files(path=targetFolderPath, pattern="[0-9].txt$", full.names = TRUE)
-# d3 <- lapply(files_list, ProcessNebData)
-# 
-# experiment = experiments[[4]]
-# dataFolder = paste0(experiment, "-automated")
-# targetFolderPath <- paste0(dataPath,"/", dataFolder)
-# files_list <- list.files(path=targetFolderPath, pattern="[0-9].txt$", full.names = TRUE)
-# d4 <- lapply(files_list, ProcessNebData)
-# 
-# experiment = experiments[[5]]
-# dataFolder = paste0(experiment, "-automated")
-# targetFolderPath <- paste0(dataPath,"/", dataFolder)
-# files_list <- list.files(path=targetFolderPath, pattern="[0-9].txt$", full.names = TRUE)
-# d5 <- lapply(files_list, ProcessNebData)
+experiment = experiments[[2]]
+dataFolder = paste0(experiment, "-automated")
+targetFolderPath <- paste0(dataPath,"/", dataFolder)
+files_list <- list.files(path=targetFolderPath, pattern="[0-9].txt$", full.names = TRUE)
+d2 <- lapply(files_list, ProcessNebData)
+
+experiment = experiments[[3]]
+dataFolder = paste0(experiment, "-automated")
+targetFolderPath <- paste0(dataPath,"/", dataFolder)
+files_list <- list.files(path=targetFolderPath, pattern="[0-9].txt$", full.names = TRUE)
+d3 <- lapply(files_list, ProcessNebData)
+
+experiment = experiments[[4]]
+dataFolder = paste0(experiment, "-automated")
+targetFolderPath <- paste0(dataPath,"/", dataFolder)
+files_list <- list.files(path=targetFolderPath, pattern="[0-9].txt$", full.names = TRUE)
+d4 <- lapply(files_list, ProcessNebData)
+
+experiment = experiments[[5]]
+dataFolder = paste0(experiment, "-automated")
+targetFolderPath <- paste0(dataPath,"/", dataFolder)
+files_list <- list.files(path=targetFolderPath, pattern="[0-9].txt$", full.names = TRUE)
+d5 <- lapply(files_list, ProcessNebData)
