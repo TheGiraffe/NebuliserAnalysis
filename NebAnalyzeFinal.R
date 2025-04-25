@@ -126,4 +126,7 @@ p4 <- ggplot(EthOverview, aes(x = eth, y=eFPF_Mean_MEAN, colour = name)) +
   plot_annotation(caption = "Please note that the 25% Ethanol data is very sparse, only had one trial, and is the least accurate indicator. ") &
   theme(text=element_text(family=myFont))
 
-ggsave(paste0("Exports/Final/alarmmin80/","FinalResults",".svg"), width = 12, height = 5, units = "in")
+write_csv(EthOverview, "finaloverview.csv")
+write_csv(EthTable, "finaltable.csv")
+
+# ggsave(paste0("Exports/Final/alarmmin80/","FinalResults",".svg"), width = 12, height = 5, units = "in")
