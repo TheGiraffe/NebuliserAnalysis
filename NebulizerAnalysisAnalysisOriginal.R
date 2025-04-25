@@ -257,18 +257,18 @@ ProcessNebData <- function(path) {
   
   ggsave(paste0(boxPlotExportPath,"BoxPlot_", expname,".svg"), width = 10, height = 4, units = "in")
   
-  # plottest <- ggplot(intervals, aes(x=sizebin, y=volumepc, fill=sGrade)) +
-  #   geom_bar(stat='identity') +
-  #   geom_textvline(aes(xintercept = dv50_bin, label=paste0("VMD: ", as.character(vmd))), size=10, family=myFont) +
-  #   ylim(0, (as.integer(max(intervals$volumepc)) + 1)) +
-  #   theme_bw() +
-  #   theme(axis.text.x=element_text(angle=90), axis.text = element_text(size=12), plot.title=element_text(size=40), text=element_text(family=myFont, size=15)) +
-  #   labs(title = "{expname}", caption='Timestamp: {frame_time}, {format(round((frame_time - min(intervals$timestamp)), 2), nsmall = 2)} of {format(round((max(intervals$timestamp) - min(intervals$timestamp)), 2), nsmall = 2)}', x = 'Size (μm)', y = 'Volume Percentage (%)') +
-  #   transition_time(timestamp) +
-  #   ease_aes('linear')
+  plottest <- ggplot(intervals, aes(x=sizebin, y=volumepc, fill=sGrade)) +
+    geom_bar(stat='identity') +
+    geom_textvline(aes(xintercept = dv50_bin, label=paste0("VMD: ", as.character(vmd))), size=10, family=myFont) +
+    ylim(0, (as.integer(max(intervals$volumepc)) + 1)) +
+    theme_bw() +
+    theme(axis.text.x=element_text(angle=90), axis.text = element_text(size=12), plot.title=element_text(size=40), text=element_text(family=myFont, size=15)) +
+    labs(title = "{expname}", caption='Timestamp: {frame_time}, {format(round((frame_time - min(intervals$timestamp)), 2), nsmall = 2)} of {format(round((max(intervals$timestamp) - min(intervals$timestamp)), 2), nsmall = 2)}', x = 'Size (μm)', y = 'Volume Percentage (%)') +
+    transition_time(timestamp) +
+    ease_aes('linear')
   
-  # animate(plottest, duration = nrow(data)/animation_fps, fps = animation_fps, width = 1920, height = 1080, renderer = gifski_renderer())
-  # anim_save(paste0(animationExportPath, "PSDAnim_", expname,".gif"))
+  animate(plottest, duration = nrow(data)/animation_fps, fps = animation_fps, width = 1920, height = 1080, renderer = gifski_renderer())
+  anim_save(paste0(animationExportPath, "PSDAnim_", expname,".gif"))
   
   write_csv(intervals, paste0(dataExportPath, "PSDs/PSDFull_", expname, ".csv"))
   write_csv(intervals_with_data, paste0(dataExportPath, "TimestampSummaries/TSSummary_", expname, ".csv"))
